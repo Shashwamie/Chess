@@ -58,6 +58,10 @@ public abstract class Player {
 		return this.legalMoves;
 	}
 	
+	public Collection<Move> getOpponentsMoves(){
+		return this.opponentMoves;
+	}
+	
 	/*
 	 * this gets the attack moves on a specific tile
 	 */

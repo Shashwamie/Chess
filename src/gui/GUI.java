@@ -24,9 +24,13 @@ import javax.swing.border.Border;
 
 import board.Board;
 import board.Move;
+import board.Move.KingCheckMove;
+import board.Move.NormalMove;
 import board.Tile;
 import pieces.*;
+import player.Player;
 import util.PieceColor;
+import util.PieceType;
 
 /*
  * The Gui class is the main interactivity of the game and is what is interacted with
@@ -237,9 +241,10 @@ public class GUI {
 							}
 						}else {
 							destinationTile = board.getTile(tileId);
+							Collection<Move> toMove = pieceLegalMoves(board);
 
 							if(destinationTile != null) {
-								for(Move move : pieceLegalMoves(board)) {
+								for(Move move : toMove) {
 									if(destinationTile.getTileCoord() == move.getDestinationCoordinate()) {
 										//making move
 										board = move.makeMove(board, selectedPiece, destinationTile.getTileCoord(), destinationTile.getPiece());
@@ -251,8 +256,6 @@ public class GUI {
 												System.out.println("FINISH LINE");
 												movedActivePawn = move;
 												PromotionFrame pf = new PromotionFrame(activePawn.getPieceColor(), boardPanel);
-											
-											//break;
 											}		 
 										}
 
@@ -382,7 +385,32 @@ public class GUI {
 		 */
 		public Collection<Move> pieceLegalMoves(Board board){
 			if(selectedPiece != null) {
-				return selectedPiece.calculateMoves(board);
+				if(selectedPiece.getPieceType().isKing()) {
+					List<Move> newMoves = new ArrayList<>();
+					for(Move move: selectedPiece.calculateMoves(board)) {
+						boolean canMove = true;
+						for(Move opponentMove: board.getCurrentPlayer().getOpponentsMoves()) {
+							if(opponentMove.getMovedPiece().getPieceType().isPawn() && opponentMove instanceof NormalMove) {
+								continue;
+							}
+							else if(move.getDestinationCoordinate() == opponentMove.getDestinationCoordinate()){
+								canMove = false;
+							}
+						}
+						if(canMove) {
+							newMoves.add(move);
+						}
+					}
+					return newMoves;
+				}else {
+					List<Move> newMoves = new ArrayList<>();
+					for(Move move : selectedPiece.calculateMoves(board)) {
+						if(!(move instanceof KingCheckMove)) {
+							newMoves.add(move);
+						}
+					}
+					return newMoves;
+				}
 			}
 			return Collections.emptyList();
 		}

@@ -7,6 +7,7 @@ import java.util.List;
 import board.Board;
 import board.Move;
 import board.Move.AttackMove;
+import board.Move.KingCheckMove;
 import board.Move.NormalMove;
 import util.PieceColor;
 
@@ -69,6 +70,8 @@ public class King extends Piece{
 					if(this.pieceColor != otherPiece.getPieceColor())
 					{
 						moves.add(new AttackMove(board, this, coordinateToCheck, otherPiece));
+					}else {
+						moves.add(new KingCheckMove(board, this, coordinateToCheck));
 					}
 					break;
 				}

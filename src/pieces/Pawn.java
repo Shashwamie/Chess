@@ -7,6 +7,7 @@ import java.util.List;
 import board.Board;
 import board.Move;
 import board.Move.AttackMove;
+import board.Move.KingCheckMove;
 import board.Move.NormalMove;
 import util.PieceColor;
 
@@ -75,7 +76,11 @@ public class Pawn extends Piece{
 				if(this.getPieceColor() != otherPiece.getPieceColor()) {
 					moves.add(new AttackMove(board, this, coordinateToCheck, otherPiece));
 				}
-			}//checking for attack on the 9 offset position
+			}else if((currentMoveCandidate == 7 )&& 
+					(!(board.EIGTH_COLUMN[this.piecePos] && this.pieceColor.isWhite()) ||
+					(!(board.FIRST_COLUMN[this.piecePos] && this.pieceColor.isBlack())))) {
+				moves.add(new KingCheckMove(board, this, coordinateToCheck));
+			}
 			else if(currentMoveCandidate == 9 &&
 					(board.getTile(coordinateToCheck).isTileOccupied()) &&
 					(!(board.EIGTH_COLUMN[this.piecePos] && this.pieceColor.isBlack()) ||
@@ -86,8 +91,11 @@ public class Pawn extends Piece{
 				if(this.getPieceColor() != otherPiece.getPieceColor()) {
 					moves.add(new AttackMove(board, this, coordinateToCheck, otherPiece));
 				}
+			}else if(currentMoveCandidate == 9 &&
+					(!(board.EIGTH_COLUMN[this.piecePos] && this.pieceColor.isBlack()) ||
+					(!(board.FIRST_COLUMN[this.piecePos] && this.pieceColor.isWhite())))) {
+				moves.add(new KingCheckMove(board, this, coordinateToCheck));
 			}
-			
 		}
 		return moves;
 	}

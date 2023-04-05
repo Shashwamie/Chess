@@ -7,6 +7,7 @@ import java.util.List;
 import board.Board;
 import board.Move;
 import board.Move.AttackMove;
+import board.Move.KingCheckMove;
 import board.Move.NormalMove;
 import util.PieceColor;
 
@@ -41,6 +42,7 @@ public class Queen extends Piece{
 				for(int currentMoveCandidate : MOVE_CANDIDATE_DIRECTION)
 				{
 					int coordinateToCheck = this.piecePos + currentMoveCandidate;
+					boolean behindPiece = false;
 
 					//loop as long as the coordinate is valid and the number of allowed moves for the piece is not exceeded
 					while(board.isValidCoord(coordinateToCheck))
@@ -61,7 +63,11 @@ public class Queen extends Piece{
 						//if the coordinate that we're checking is empty, then we add this to the list of possible moves
 						if (!board.getTile(coordinateToCheck).isTileOccupied())
 						{
-							moves.add(new NormalMove(board, this, coordinateToCheck));
+							if(behindPiece) {
+								moves.add(new KingCheckMove(board, this, coordinateToCheck));
+							}else {
+								moves.add(new NormalMove(board, this, coordinateToCheck));
+							}
 						}
 
 
@@ -74,7 +80,7 @@ public class Queen extends Piece{
 							{
 								moves.add(new AttackMove(board, this, coordinateToCheck, otherPiece));
 							}
-							break;
+							behindPiece = true;
 						}
 
 
@@ -83,8 +89,7 @@ public class Queen extends Piece{
 						//{+8 +8 +8 +8...}
 						coordinateToCheck += currentMoveCandidate;
 					}
-
-
+					behindPiece = false;
 				}
 				return moves;
 	}

@@ -7,6 +7,7 @@ import java.util.List;
 import board.Board;
 import board.Move;
 import board.Move.AttackMove;
+import board.Move.KingCheckMove;
 import board.Move.NormalMove;
 import util.PieceColor;
 
@@ -48,6 +49,7 @@ public class Bishop extends Piece{
 			
 			//coordinate to check is the pieces position with the offset where we want to move
 			int coordinateToCheck = this.piecePos + currentMoveCandidate;
+			boolean behindPiece = false;
 			
 			//checks to make sure the coordinate is within the board
 			while(board.isValidCoord(coordinateToCheck)) {
@@ -66,7 +68,11 @@ public class Bishop extends Piece{
 				
 				//if tile is not occupied add it as a move
 				if(!board.getTile(coordinateToCheck).isTileOccupied()) {
-					moves.add(new NormalMove(board, this, coordinateToCheck));
+					if(behindPiece) {
+						moves.add(new KingCheckMove(board, this, coordinateToCheck));
+					}else {
+						moves.add(new NormalMove(board, this, coordinateToCheck));
+					}
 					
 				//if tile is occupied  and the other piece is the other teams add the attack move
 				}else if(board.getTile(coordinateToCheck).isTileOccupied()) {
@@ -74,11 +80,12 @@ public class Bishop extends Piece{
 					if(this.pieceColor != otherPiece.getPieceColor()) {
 						moves.add(new AttackMove(board, this, coordinateToCheck, otherPiece));
 					}
-					break;
+					behindPiece = true;
 				}
 				//adds to the next move to check
 				coordinateToCheck += currentMoveCandidate;
 			}
+			behindPiece = false;
 		}
 		return moves;
 	}

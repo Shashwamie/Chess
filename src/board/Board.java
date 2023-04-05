@@ -17,6 +17,7 @@ import player.BlackPlayer;
 import player.Player;
 import player.WhitePlayer;
 import util.PieceColor;
+import util.PieceType;
 
 public class Board {
 
@@ -34,7 +35,7 @@ public class Board {
 	WhitePlayer whitePlayer;
 	BlackPlayer blackPlayer;
 	
-	private Player currentPlayer;
+	public Player currentPlayer;
 	
 	private String message;
 	
@@ -172,21 +173,28 @@ public class Board {
 	 * setting some random pieces to test move functionality
 	 */
 	public void createMoveExampleBoard() {
+		
+		
 		setPiece(new Rook(27, PieceColor.BLACK));
 		setPiece(new Pawn(17, PieceColor.WHITE));
-		setPiece(new Pawn(49, PieceColor.WHITE));
 		setPiece(new Pawn(34, PieceColor.WHITE));
 		setPiece(new Knight(36, PieceColor.BLACK));
 		setPiece(new Knight(40, PieceColor.BLACK));
 		setPiece(new Bishop(47, PieceColor.BLACK));
 		setPiece(new Pawn(10, PieceColor.BLACK));
 		setPiece(new King(33, PieceColor.BLACK));
-		setPiece(new King(1, PieceColor.WHITE));
-		setPiece(new Queen(54, PieceColor.BLACK));
+		setPiece(new King(49, PieceColor.WHITE));
+		//setPiece(new Queen(54, PieceColor.BLACK));
 		setPiece(new Rook(63, PieceColor.BLACK));
 		setPiece(new Pawn(15, PieceColor.BLACK));
 		setPiece(new Pawn(12, PieceColor.WHITE));
 		setPiece(new Pawn(52, PieceColor.BLACK));
+		
+		
+		
+		//setPiece(new King(3, PieceColor.BLACK));
+		//setPiece(new Bishop(19, PieceColor.BLACK));
+		//setPiece(new King(26, PieceColor.WHITE));
 	}
 	
 	/*

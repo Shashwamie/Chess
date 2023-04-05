@@ -81,6 +81,11 @@ public abstract class Move {
 		newBoard.blackPieces = newBoard.getBlackActivePieces(newBoard.gameBoard);
 		newBoard.whitePlayer = new WhitePlayer(newBoard, newBoard.calculateLegalMoves(newBoard.whitePieces), newBoard.calculateLegalMoves(newBoard.blackPieces));
 		newBoard.blackPlayer = new BlackPlayer(newBoard, newBoard.calculateLegalMoves(newBoard.blackPieces), newBoard.calculateLegalMoves(newBoard.whitePieces));
+		if(movedPiece.getPieceColor() == PieceColor.WHITE) {
+			newBoard.currentPlayer = newBoard.blackPlayer();
+		}else {
+			newBoard.currentPlayer = newBoard.whitePlayer();
+		}
 		return newBoard;
 	}
 	
@@ -104,7 +109,7 @@ public abstract class Move {
 			return this.movedPiece;
 		}
 		public boolean isAttackMove() {
-			return true;
+			return false;
 		}
 	}
 	
@@ -112,6 +117,30 @@ public abstract class Move {
 
 		public AttackMove(Board board, Piece movedPiece, int destinationCoordinate, Piece attackedPiece) {
 			super(board, movedPiece, destinationCoordinate, attackedPiece);
+		}
+		
+		/*
+		 * gets the destination coordinate of this move
+		 */
+		public int getDestinationCoordinate() {
+			return this.destinationCoordinate;
+		}
+		public int getCurrentCoordinate() {
+			return this.getMovedPiece().getPiecePos();
+		}
+		public Piece getMovedPiece() {
+			return this.movedPiece;
+		}
+		public boolean isAttackMove() {
+			return true;
+		}
+	}
+	
+	
+	public static class KingCheckMove extends Move{
+
+		public KingCheckMove(Board board, Piece movedPiece, int destinationCoordinate) {
+			super(board, movedPiece, destinationCoordinate);
 		}
 		
 		/*

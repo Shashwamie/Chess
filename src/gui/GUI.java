@@ -24,6 +24,7 @@ import javax.swing.border.Border;
 
 import board.Board;
 import board.Move;
+import board.Move.AttackMove;
 import board.Move.KingCheckMove;
 import board.Move.NormalMove;
 import board.Tile;
@@ -385,10 +386,11 @@ public class GUI {
 		 */
 		public Collection<Move> pieceLegalMoves(Board board){
 			if(selectedPiece != null) {
+				List<Move> newMoves = new ArrayList<>();
 				if(selectedPiece.getPieceType().isKing()) {
-					List<Move> newMoves = new ArrayList<>();
 					for(Move move: selectedPiece.calculateMoves(board)) {
 						boolean canMove = true;
+						
 						for(Move opponentMove: board.getCurrentPlayer().getOpponentsMoves()) {
 							if(opponentMove.getMovedPiece().getPieceType().isPawn() && opponentMove instanceof NormalMove) {
 								continue;
@@ -403,10 +405,18 @@ public class GUI {
 					}
 					return newMoves;
 				}else {
-					List<Move> newMoves = new ArrayList<>();
-					for(Move move : selectedPiece.calculateMoves(board)) {
-						if(!(move instanceof KingCheckMove)) {
-							newMoves.add(move);
+					if(board.getCurrentPlayer().isInCheck()) {
+						for(Move move : selectedPiece.calculateMoves(board)) {
+							Board testBoard = move.makeMove(board, selectedPiece, move.getDestinationCoordinate(), move.getAttackedPiece());
+							if(!testBoard.getCurrentPlayer().getOpponent().isInCheck()) {
+								newMoves.add(move);
+							}
+						}
+					}else {
+						for(Move move : selectedPiece.calculateMoves(board)) {
+							if(!(move instanceof KingCheckMove)) {
+								newMoves.add(move);
+							}
 						}
 					}
 					return newMoves;

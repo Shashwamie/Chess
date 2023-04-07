@@ -81,7 +81,6 @@ public abstract class Player {
 	public boolean hasEscapeMoves() {
 		for(Move kingsMove : this.playerKing.calculateMoves(board)) {
 			if(calculateAttacksOnTile(kingsMove.getDestinationCoordinate(), this.opponentMoves).isEmpty()) {
-				System.out.println("escape");
 				return true;
 			}
 		}

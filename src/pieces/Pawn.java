@@ -76,6 +76,9 @@ public class Pawn extends Piece{
 				if(this.getPieceColor() != otherPiece.getPieceColor()) {
 					moves.add(new AttackMove(board, this, coordinateToCheck, otherPiece));
 				}
+				if(otherPiece.getPieceColor() == this.pieceColor) {
+					moves.add(new KingCheckMove(board, this, coordinateToCheck));
+				}
 			}else if((currentMoveCandidate == 7 )&& 
 					(!(board.EIGTH_COLUMN[this.piecePos] && this.pieceColor.isWhite()) ||
 					(!(board.FIRST_COLUMN[this.piecePos] && this.pieceColor.isBlack())))) {
@@ -90,6 +93,9 @@ public class Pawn extends Piece{
 				
 				if(this.getPieceColor() != otherPiece.getPieceColor()) {
 					moves.add(new AttackMove(board, this, coordinateToCheck, otherPiece));
+				}
+				if(otherPiece.getPieceColor() == this.pieceColor) {
+					moves.add(new KingCheckMove(board, this, coordinateToCheck));
 				}
 			}else if(currentMoveCandidate == 9 &&
 					(!(board.EIGTH_COLUMN[this.piecePos] && this.pieceColor.isBlack()) ||

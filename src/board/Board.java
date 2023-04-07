@@ -67,8 +67,8 @@ public class Board {
 	 * to get the full board
 	 */
 	public Board() {
-		//createDefaultLayout();
-		createMoveExampleBoard();
+		createDefaultLayout();
+		//createMoveExampleBoard();
 		this.gameBoard = createGameBoard();
 		this.whitePieces = getWhiteActivePieces(gameBoard);
 		this.blackPieces = getBlackActivePieces(gameBoard);
@@ -174,7 +174,7 @@ public class Board {
 	 */
 	public void createMoveExampleBoard() {
 		
-		
+		/*
 		setPiece(new Rook(27, PieceColor.BLACK));
 		setPiece(new Pawn(17, PieceColor.WHITE));
 		setPiece(new Pawn(34, PieceColor.WHITE));
@@ -189,12 +189,15 @@ public class Board {
 		setPiece(new Pawn(15, PieceColor.BLACK));
 		setPiece(new Pawn(12, PieceColor.WHITE));
 		setPiece(new Pawn(52, PieceColor.BLACK));
+		*/
 		
 		
 		
-		//setPiece(new King(3, PieceColor.BLACK));
-		//setPiece(new Bishop(19, PieceColor.BLACK));
-		//setPiece(new King(26, PieceColor.WHITE));
+		setPiece(new King(3, PieceColor.BLACK));
+		setPiece(new Rook(27, PieceColor.BLACK));
+		setPiece(new King(25, PieceColor.WHITE));
+		setPiece(new Queen(58, PieceColor.WHITE));
+		setPiece(new Pawn(36, PieceColor.BLACK));
 	}
 	
 	/*
